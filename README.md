@@ -1,1 +1,1 @@
-# project-ihb
+# Project-IHB(Iknoom Hacks BOJ)
