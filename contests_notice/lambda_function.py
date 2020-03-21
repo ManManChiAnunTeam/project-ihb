@@ -5,6 +5,7 @@ from datetime import datetime
 codeforces_url = "https://codeforces.com"
 atcoder_url = "https://atcoder.jp"
 slack_url = "https://hooks.slack.com/services/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"
+#slack_url = "https://hooks.slack.com/services/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"
 channel_ID = {'Codeforces' : 'C0105GWQM28', 'Atcoder' : 'C01062ANCCD'}
 
 def lambda_handler(event, context):
@@ -20,9 +21,11 @@ def lambda_handler(event, context):
     next_upcoming_contests += get_ac_upcoming_contests(prv_upcoming_contest_names)
 
     # notice today contests
-    for upcoming_contest in next_upcoming_contests:
-        if upcoming_contest['start_time'] - time.time() <= 12*60*60 + 600:
-            notice_today_contest(upcoming_contest)
+    for i in range(len(next_upcoming_contests)):
+        if next_upcoming_contests[i]['noticed']: continue
+        if next_upcoming_contests[i]['start_time'] - time.time() <= 12*60*60 + 600:
+            notice_today_contest(next_upcoming_contests[i])
+            next_upcoming_contests[i]['noticed'] = True
 
     # update upcoming contest data
     with open("upcoming_contests.json", 'w') as f:
@@ -47,6 +50,7 @@ def get_cf_upcoming_contests(prv_upcoming_contest_names):
         contest['duration'] = f'{minute // 60:02}:{minute % 60:02}'
         contest['url'] = codeforces_url + '/contests/' + str(contest['id'])
         contest['oj'] = 'Codeforces'
+        contest['noticed'] = False
 
         # notice new contests
         if contest['name'] not in prv_upcoming_contest_names:
@@ -78,6 +82,7 @@ def get_ac_upcoming_contests(prv_upcoming_contest_names):
         contest['duration'] = tds[2].text
         contest['url'] = atcoder_url + name['href']
         contest['oj'] = 'Atcoder'
+        contest['noticed'] = False
 
         # notice new contests
         if contest['name'] not in prv_upcoming_contest_names:
