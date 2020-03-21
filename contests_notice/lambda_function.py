@@ -4,8 +4,7 @@ from datetime import datetime
 
 codeforces_url = "https://codeforces.com"
 atcoder_url = "https://atcoder.jp"
-#slack_url = "https://hooks.slack.com/services/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"
-slack_url = "https://hooks.slack.com/services/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"
+slack_url = "https://hooks.slack.com/services/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"
 channel_ID = {'Codeforces' : 'C0105GWQM28', 'Atcoder' : 'C01062ANCCD'}
 
 def lambda_handler(event, context):
