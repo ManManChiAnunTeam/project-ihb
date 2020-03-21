@@ -22,10 +22,9 @@ def lambda_handler(event, context):
 
     # notice today contests
     for i in range(len(next_upcoming_contests)):
-        if next_upcoming_contests[i]['noticed']: continue
-        if next_upcoming_contests[i]['start_time'] - time.time() <= 12*60*60 + 600:
+        t = next_upcoming_contests[i]['start_time'] - time.time() - 12*60*60
+        if 0 <= t < 3600:
             notice_today_contest(next_upcoming_contests[i])
-            next_upcoming_contests[i]['noticed'] = True
 
     # update upcoming contest data
     with open("upcoming_contests.json", 'w') as f:
@@ -50,7 +49,6 @@ def get_cf_upcoming_contests(prv_upcoming_contest_names):
         contest['duration'] = f'{minute // 60:02}:{minute % 60:02}'
         contest['url'] = codeforces_url + '/contests/' + str(contest['id'])
         contest['oj'] = 'Codeforces'
-        contest['noticed'] = False
 
         # notice new contests
         if contest['name'] not in prv_upcoming_contest_names:
@@ -82,7 +80,6 @@ def get_ac_upcoming_contests(prv_upcoming_contest_names):
         contest['duration'] = tds[2].text
         contest['url'] = atcoder_url + name['href']
         contest['oj'] = 'Atcoder'
-        contest['noticed'] = False
 
         # notice new contests
         if contest['name'] not in prv_upcoming_contest_names:
