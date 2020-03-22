@@ -148,3 +148,39 @@ def notice_today_contest(contest):
         slack_url, data=json.dumps(payloads),
         headers={'Content-Type': 'application/json'}
     )
+
+def notice_all_upcoming_contests():
+    global slack_url
+
+    with open('upcoming_contests.json', 'r') as f:
+        upcoming_contests_json = f.read()
+        upcoming_contests = json.loads(upcoming_contests_json)
+
+    upcoming_contests.sort(key=lambda x : x['start_time'])
+
+    title = "Codeforces / AtCoder Upcoming Contests"
+    content = ''
+    for upcoming_contest in upcoming_contests:
+        content += upcoming_contest['name'] + '\n'
+        content += str(datetime.fromtimestamp(upcoming_contest['start_time'])) + ' | '
+        content += upcoming_contest['duration'] + '\n'
+        content += upcoming_contest['url'] + '\n'
+        content += '\n'
+
+    payloads = {
+        "attachments": [
+            {
+                "fallback" : "앞으로 예정된 Contest는 다음과 같습니다.",
+                "pretext": "앞으로 예정된 Contest는 다음과 같습니다.",
+                "color": "#000000",
+                "fields": [{
+                    "title": title,
+                    "value": content,
+                    "short": False
+                }]
+            }]
+    }
+    response = requests.post(
+        slack_url, data=json.dumps(payloads),
+        headers={'Content-Type': 'application/json'}
+    )
