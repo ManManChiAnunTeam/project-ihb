@@ -10,21 +10,30 @@ channel_ID = {'Codeforces' : 'C0105GWQM28', 'Atcoder' : 'C01062ANCCD'}
 
 def lambda_handler(event, context):
 
+    next_upcoming_contests = []
+    prv_upcoming_contest_names = set()
+
     # load upcoming contest data
     with open('upcoming_contests.json', 'r') as f:
         upcoming_contests_json = f.read()
         upcoming_contests = json.loads(upcoming_contests_json)
-        prv_upcoming_contest_names = {contest['name'] for contest in upcoming_contests}
 
-    next_upcoming_contests = []
+    # delete past contests
+    for upcoming_contest in upcoming_contests:
+        if upcoming_contest['start_time'] >= time.time():
+            next_upcoming_contests.append(upcoming_contest)
+            prv_upcoming_contest_names.add(upcoming_contest['name'])
+
+    # add new contests
     next_upcoming_contests += get_cf_upcoming_contests(prv_upcoming_contest_names)
     next_upcoming_contests += get_ac_upcoming_contests(prv_upcoming_contest_names)
 
     # notice today contests
     for i in range(len(next_upcoming_contests)):
-        t = next_upcoming_contests[i]['start_time'] - time.time() - 12*60*60
-        if 0 <= t < 3600:
+        t = next_upcoming_contests[i]['start_time'] - time.time()
+        if t < 12*60*60 and not next_upcoming_contests[i]['noticed']:
             notice_today_contest(next_upcoming_contests[i])
+            next_upcoming_contests[i]['noticed'] = True
 
     # update upcoming contest data
     with open("upcoming_contests.json", 'w') as f:
@@ -41,20 +50,19 @@ def get_cf_upcoming_contests(prv_upcoming_contest_names):
     ret = []
     for parse_contest in parse_contests:
         if parse_contest['phase'] != 'BEFORE': break
-        contest = {}
-        minute = parse_contest['durationSeconds'] // 60
-        contest['id'] = parse_contest['id']
-        contest['name'] = parse_contest['name']
-        contest['start_time'] = parse_contest['startTimeSeconds'] + (9 * 60 * 60)
-        contest['duration'] = f'{minute // 60:02}:{minute % 60:02}'
-        contest['url'] = codeforces_url + '/contests/' + str(contest['id'])
-        contest['oj'] = 'Codeforces'
+        if parse_contest['name'] not in prv_upcoming_contest_names:
+            contest = {}
+            minute = parse_contest['durationSeconds'] // 60
+            contest['id'] = parse_contest['id']
+            contest['name'] = parse_contest['name']
+            contest['start_time'] = parse_contest['startTimeSeconds'] + (9 * 60 * 60)
+            contest['duration'] = f'{minute // 60:02}:{minute % 60:02}'
+            contest['url'] = codeforces_url + '/contests/' + str(contest['id'])
+            contest['oj'] = 'Codeforces'
+            contest['noticed'] = False
 
-        # notice new contests
-        if contest['name'] not in prv_upcoming_contest_names:
             notice_new_contest(contest)
-
-        ret.append(contest)
+            ret.append(contest)
 
     return ret
 
@@ -70,22 +78,21 @@ def get_ac_upcoming_contests(prv_upcoming_contest_names):
     # parse atcoder
     ret = []
     for upcoming_contest in upcoming_contests:
-        contest = {}
-        contest['id'] = None
         tds = upcoming_contest.find_all('td')
         name = tds[1].find('a')
-        datetime_obj = datetime.strptime(tds[0].text.split('+')[0], '%Y-%m-%d %H:%M:%S')
-        contest['name'] = name.text
-        contest['start_time'] = time.mktime(datetime_obj.timetuple())
-        contest['duration'] = tds[2].text
-        contest['url'] = atcoder_url + name['href']
-        contest['oj'] = 'Atcoder'
+        if name.text not in prv_upcoming_contest_names:
+            contest = {}
+            contest['id'] = None
+            contest['name'] = name.text
+            datetime_obj = datetime.strptime(tds[0].text.split('+')[0], '%Y-%m-%d %H:%M:%S')
+            contest['start_time'] = time.mktime(datetime_obj.timetuple())
+            contest['duration'] = tds[2].text
+            contest['url'] = atcoder_url + name['href']
+            contest['oj'] = 'Atcoder'
+            contest['noticed'] = False
 
-        # notice new contests
-        if contest['name'] not in prv_upcoming_contest_names:
             notice_new_contest(contest)
-
-        ret.append(contest)
+            ret.append(contest)
 
     return ret
 
