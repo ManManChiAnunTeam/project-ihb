@@ -1,12 +1,13 @@
 import requests, json, time
+import boto3, botocore
 from bs4 import BeautifulSoup
 from datetime import datetime
 
 codeforces_url = "https://codeforces.com"
 atcoder_url = "https://atcoder.jp"
 slack_url = "https://hooks.slack.com/services/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"
-#slack_url = "https://hooks.slack.com/services/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"
 channel_ID = {'Codeforces' : 'C0105GWQM28', 'Atcoder' : 'C01062ANCCD'}
+s3 = boto3.client('s3')
 
 def lambda_handler(event, context):
 
@@ -14,9 +15,9 @@ def lambda_handler(event, context):
     prv_upcoming_contest_names = set()
 
     # load upcoming contest data
-    with open('upcoming_contests.json', 'r') as f:
-        upcoming_contests_json = f.read()
-        upcoming_contests = json.loads(upcoming_contests_json)
+    data = s3.get_object(Bucket="iknoom-contests", Key="upcoming_contests.json")
+    upcoming_contests_json = data['Body'].read()
+    upcoming_contests = json.loads(upcoming_contests_json)
 
     # delete past contests
     for upcoming_contest in upcoming_contests:
@@ -36,8 +37,8 @@ def lambda_handler(event, context):
             next_upcoming_contests[i]['noticed'] = True
 
     # update upcoming contest data
-    with open("upcoming_contests.json", 'w') as f:
-        json.dump(next_upcoming_contests, f)
+    s3.put_object(Body=json.dumps(next_upcoming_contests) ,Bucket="iknoom-contests", Key="upcoming_contests.json")
+
 
 def get_cf_upcoming_contests(prv_upcoming_contest_names):
     global codeforces_url
@@ -148,7 +149,7 @@ def notice_today_contest(contest):
         slack_url, data=json.dumps(payloads),
         headers={'Content-Type': 'application/json'}
     )
-
+    
 def notice_all_upcoming_contests():
     global slack_url
 
