@@ -12,7 +12,7 @@ Baekjoon(문제 정보, 우리 학교 학생이 푼 문제 정보 등)과 solved
 {
 	"id": 문제 번호 (문자열),
 	"title": 문제 제목 (문자열),
-	"rank": solved.ac 기준 티어, 티어 종류의 첫글자를 따고 티어 번호를 뒤어 붙여 표현 (ex. 번외 = "N", Unrated = "U", Bronze 5 = "B5", Ruby 1 = "R1"),
+	"rank": solved.ac 기준 티어, 아래 설명 참조
 	"solver_count": 맞은 사람의 수 (문자열이며, 맞았습니다!!의 수가 아님),
 	"ac_rate": 정답 비율 (0~100 까지의 실수를 나타내는 문자열)
 }
