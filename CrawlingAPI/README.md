@@ -3,16 +3,32 @@
 Baekjoon(문제 정보, 우리 학교 학생이 푼 문제 정보 등)과 solved.ac(문제의 난이도)를 크롤링하는 함수를 제공하는 API 입니다. API를 사용하기 위해 import 하여야 하는 파일은 CrawlingAPI.py이며 그 외 파일은 함수를 디버그하거나, CrawlingAPI.py를 구현하기위해 사용됩니다.
 
 # API에 포함되는 함수가 return 할 JSON에서의 객체 구조
- API 내 함수는 크게, 반환할 때 Python 객체(주로 리스트)를 반환하는 함수와 JSON의 문법을 따르는 string을 반환하는 함수로 나뉩니다. 그 중에서 Baekjoon 문제에 대한 정보를 JSON으로 반환할 때는 아래와 같은 형식을 따릅니다.
+ API 내 함수는 크게, 반환할 때 Python 객체(주로 리스트)를 반환하는 함수와 JSON의 문법을 따르는 string을 반환하는 함수로 나뉩니다. 일부는 아래와 같은 형식을 따릅니다.
+ 
+## Baekjoon 문제
+ Baekjoon 문제에 대한 정보를 JSON으로 반환할 때는 아래와 같은 형식을 따릅니다.
  
 <pre><code>
 {
-	"id": 문제 번호 (정수),
-	"rank": solved.ac 기준 티어, 티어 종류의 첫글자를 따고 티어 번호를 뒤어 붙여 표현 (ex. Bronze 5 -> "B5", Ruby 1 -> "R1"),
-	"solver_count": 맞은 사람의 수 (맞았습니다!!의 수가 아님),
-	"ac_rate": 정답 비율 (0~100 까지의 실수)
+	"id": 문제 번호 (문자열),
+	"title": 문제 제목 (문자열),
+	"rank": solved.ac 기준 티어, 티어 종류의 첫글자를 따고 티어 번호를 뒤어 붙여 표현 (ex. 번외 = "N", Unrated = "U", Bronze 5 = "B5", Ruby 1 = "R1"),
+	"solver_count": 맞은 사람의 수 (문자열이며, 맞았습니다!!의 수가 아님),
+	"ac_rate": 정답 비율 (0~100 까지의 실수를 나타내는 문자열)
 }
 </code></pre>
+
+## JSON에서 Solved.ac의 문제 티어 표현 방법
+ Solved.ac에서 문제의 티어는 Bronze, Silver, Gold, Platinum, Diamond, Ruby, Unrated, 번외로 나눕니다. 티어는 문자열로 아래와 같이 표현합니다.
+ 
+ 1. Bronze 5 ~ Bronze 1 : "B5", "B4", ..., "B1"
+ 2. Silver 5 ~ Silver 1 : "S5", "S4", ..., "S1"
+ 3. Gold 5 ~ Gold 1 : "G5", "G4", ..., "G1"
+ 4. Platinum 5 ~ Platinum 1 : "P5", "P4", ..., "P1"
+ 5. Diamond 5 ~ Diamond 1 : "D5", "D4", ..., "D1"
+ 6. Ruby 5 ~ Ruby 1 : "R5", "R4", ..., "R1"
+ 7. Unrated : "U"
+ 8. 번외 : "N"
 
 # API에 구현되는 함수 목록
 ## (string) getAllProb_JSON()
@@ -22,10 +38,11 @@ Baekjoon(문제 정보, 우리 학교 학생이 푼 문제 정보 등)과 solved
 ex. 아래 내용을 담은 문자열
 [
 	{
-		"id": 1000,
+		"id": "1000",
+		"title": "A+B",
 		"rank": "B5",
-		"solver_count": 84016,
-		"ac_rate": 44.931
+		"solver_count": "84016",
+		"ac_rate": "44.931"
 	},
 	{
 		... # 위의 예시와 같은 형식의 다음 문제 내용
@@ -70,10 +87,11 @@ ex. 아래 내용을 담은 문자열
 <pre><code>
 [
 	{
-		"id": 18801,
+		"id": "18801",
+		"title": "댐",
 		"rank": "R5",
-		"solver_count": 21,
-		"ac_rate": 43.750
+		"solver_count": "21",
+		"ac_rate": "43.750"
 	},
 	{
 		... # 위의 예시와 같은 형식의 다음 문제 내용
@@ -89,6 +107,7 @@ id에 해당하는 문제의 정보를 새로 가져옵니다.
 ex. 아래 내용을 담은 문자열 (getProbInfo(18801))
 {
 	"id": 18801,
+	"title": "댐",
 	"rank": "R5",
 	"solver_count": 21,
 	"ac_rate": 43.750
