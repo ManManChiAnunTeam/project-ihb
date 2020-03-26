@@ -54,37 +54,37 @@ ex. 아래 내용을 담은 문자열
 ]
 </code></pre>
 
-## (int list) getUOSProbList()
-우리학교에서 푼 문제의 ID(정수)를 담은 리스트를 반환합니다.
+## (string list) getUOSProbList()
+우리학교에서 푼 문제의 ID(문자열)를 담은 리스트를 반환합니다.
 
-<pre><code>ex. [ 1000, 1001, 1002, ..., 99999 ]</code></pre>
+<pre><code>ex. [ "1000", "1001", "1002", ..., "99999" ]</code></pre>
 
 ## (string) getUOSProbList_JSON()
 위의 getUOSProblemsList()과 목적은 같지만 반환 형식이 JSON 형식의 문자열입니다.
 
-<pre><code>ex. 다음 내용을 담은 문자열 : [ 1000, 1001, 1002, ..., 99999 ]</code></pre>
+<pre><code>ex. 다음 내용을 담은 문자열 : [ "1000", "1001", "1002", ..., "99999" ]</code></pre>
 
-## (int) getLastSubID()
-백준 채점 시스템에서의 마지막 제출번호를 반환 (단, "채점중", "기다리는중"인 제출은 제외하여 생각)
+## (string) getLastSubID()
+백준 채점 시스템에서 "맞았습니다!!"를 받은 우리학교의 마지막 제출번호를 반환합니다.
 
-<pre><code>ex. 18542883</code></pre>
+<pre><code>ex. "18542883"</code></pre>
 
-## (int) getLastProbID()
+## (string) getLastProbID()
 백준 문제 목록에서의 마지막 문제의 번호를 반환합니다.
 
-<pre><code>ex. 18807</code></pre>
+<pre><code>ex. "18807"</code></pre>
 
-## (int list) getSolvedAfter((int) subID)
+## (string list) getSolvedAfter((string) subID)
 지난 마지막 제출번호(subID) 이후에 우리학교에서 제출하여 "맞았습니다!!"를 받은 문제의 리스트를 반환합니다. (중복 없음)
 
-<pre><code>ex. [ 1234, 9876, ..., 5678 ]</code></pre>
+<pre><code>ex. [ "1234", "9876", ..., "5678" ]</code></pre>
 
-## (string) getSolvedAfter_JSON((int) subID)
-위의 getSolvedAfter((int) subID)와 목적은 같지만 반환 형식이 JSON 형식의 문자열입니다.
+## (string) getSolvedAfter_JSON((string) subID)
+위의 getSolvedAfter((string) subID)와 목적은 같지만 반환 형식이 JSON 형식의 문자열입니다.
 
-<pre><code>ex. 다음 내용을 담은 문자열 : [ 1234, 9876, ..., 5678 ]</code></pre>
+<pre><code>ex. 다음 내용을 담은 문자열 : [ "1234", "9876", ..., "5678" ]</code></pre>
 
-## (string) getProbsAfter_JSON((int) probID)
+## (string) getProbsAfter_JSON((string) probID)
 지난 마지막 문제 번호(probID) 이후에 새로 추가된 문제 목록을 JSON 형식으로 반환합니다.
 
 <pre><code>
@@ -103,16 +103,16 @@ ex. 아래 내용을 담은 문자열
 ]
 </code></pre>
 
-## (string) getProbInfo((int) id)
+## (string) getProbInfo((string) id)
 id에 해당하는 문제의 정보를 새로 가져옵니다.
 
 <pre><code>
-ex. 아래 내용을 담은 문자열 (getProbInfo(18801))
+ex. 아래 내용을 담은 문자열 (getProbInfo("18801"))
 {
-	"id": 18801,
+	"id": "18801",
 	"title": "댐",
 	"rank": "R5",
-	"solver_count": 21,
-	"ac_rate": 43.750
+	"solver_count": "21",
+	"ac_rate": "43.750"
 }
 </code></pre>
