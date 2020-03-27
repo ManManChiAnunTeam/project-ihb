@@ -9,7 +9,7 @@ Baekjoon(문제 정보, 우리 학교 학생이 푼 문제 정보 등)과 solved
  API 내 함수는 크게, 반환할 때 Python 객체(주로 리스트)를 반환하는 함수와 JSON의 문법을 따르는 string을 반환하는 함수로 나뉩니다. 일부는 아래와 같은 형식을 따릅니다.
  
 ## Baekjoon 문제
- Baekjoon 문제에 대한 정보를 JSON으로 반환할 때는 아래와 같은 형식을 따릅니다.
+ 메서드에서 반환하는 Baekjoon 문제에 대한 정보는 아래와 같은 하나의 Dictionary로 나타내며, 이를 JSON으로 반환할 때 역시 아래와 같은 형식을 따릅니다.
  
 <pre><code>
 {
@@ -34,11 +34,31 @@ Baekjoon(문제 정보, 우리 학교 학생이 푼 문제 정보 등)과 solved
  8. 번외 : "N"
 
 # 4. API에 구현되는 함수 목록
+## (dictionary list) getAllProbs()
+백준에 존재하는 모든 문제 목록을 Dictionary를 원소로 하는 리스트에 담아 반환합니다.
+
+<pre><code>
+ex.
+[
+	{
+		"id": "1000",
+		"title": "A+B",
+		"rank": "B5",
+		"solver_count": "84016",
+		"ac_rate": "44.931"
+	},
+	{
+		... # 위의 예시와 같은 형식의 다음 문제 내용
+	},
+	 ... # 그 외 모든 문제
+]
+</code></pre>
+
 ## (string) getAllProb_JSON()
 백준에 존재하는 모든 문제 목록을 JSON 형식의 문자열로 반환합니다.
 
 <pre><code>
-ex. 아래 내용을 담은 문자열
+ex. 아래 내용을 담은 JSON 문자열
 [
 	{
 		"id": "1000",
@@ -60,12 +80,12 @@ ex. 아래 내용을 담은 문자열
 <pre><code>ex. [ "1000", "1001", "1002", ..., "99999" ]</code></pre>
 
 ## (string) getUOSProbList_JSON()
-위의 getUOSProblemsList()과 목적은 같지만 반환 형식이 JSON 형식의 문자열입니다.
+우리학교에서 푼 문제의 ID(문자열)를 담은 JSON 문자열을 반환합니다.
 
 <pre><code>ex. 다음 내용을 담은 문자열 : [ "1000", "1001", "1002", ..., "99999" ]</code></pre>
 
 ## (string) getLastSubID()
-백준 채점 시스템에서 "맞았습니다!!"를 받은 우리학교의 마지막 제출번호를 반환합니다.
+백준 채점 시스템에서 "맞았습니다!!"를 받은 우리학교의 마지막 제출번호를 문자열로 반환합니다.
 
 <pre><code>ex. "18542883"</code></pre>
 
@@ -84,14 +104,35 @@ ex. 아래 내용을 담은 문자열
 
 <pre><code>ex. 다음 내용을 담은 문자열 : [ "1234", "9876", ..., "5678" ]</code></pre>
 
-## (string) getProbsAfter_JSON((string) probID)
-지난 마지막 문제 번호(probID) 이후에 새로 추가된 문제 목록을 JSON 형식으로 반환합니다.
+## (dictionary list) getProbsAfter((string) probID)
+지난 마지막 문제 번호(probID) 이후에 새로 추가된 문제 목록을 Dictionary를 원소로 하는 리스트 형식으로 반환합니다.
+(백준의 "추가된 문제", "추가된 영어 문제"에서 조회하므로, 너무 오래전의 문제 번호를 입력하면 문제를 모두 조회하지 못할 수 있습니다.)
 
 <pre><code>
 [
 	{
 		"id": "18801",
 		"title": "댐",
+		"rank": "R5",
+		"solver_count": "21",
+		"ac_rate": "43.750"
+	},
+	{
+		... # 위의 예시와 같은 형식의 다음 문제 내용
+	},
+	 ... # 그 외 추가된 모든 문제
+]
+</code></pre>
+
+## (string) getProbsAfter_JSON((string) probID)
+지난 마지막 문제 번호(probID) 이후에 새로 추가된 문제 목록을 JSON 형식으로 반환합니다.
+(백준의 "추가된 문제", "추가된 영어 문제"에서 조회하므로, 너무 오래전의 문제 번호를 입력하면 문제를 모두 조회하지 못할 수 있습니다.)
+
+<pre><code>
+[
+	{
+		"id": "18801",
+		"title": "\ub310",
 		"rank": "R5",
 		"solver_count": "21",
 		"ac_rate": "43.750"
