@@ -1,11 +1,11 @@
-# CrawlingAPI 개요
+# 1. CrawlingAPI 개요
  이 폴더에 있는 Python 소스는 BeautifulSoup 라이브러리를 이용하여
 Baekjoon(문제 정보, 우리 학교 학생이 푼 문제 정보 등)과 solved.ac(문제의 난이도)를 크롤링하는 함수를 제공하는 API 입니다. API를 사용하기 위해 import 하여야 하는 파일은 CrawlingAPI.py이며 그 외 파일은 함수를 디버그하거나, CrawlingAPI.py를 구현하기위해 사용됩니다.
 
-# 요구 사항
+# 2. 요구 사항
  BeautifulSoup4와 lxml을 pip를 통해 미리 설치해야 합니다.
 
-# API에 포함되는 함수가 return 할 JSON에서의 객체 구조
+# 3. API에 포함되는 함수가 return 할 JSON에서의 객체 구조
  API 내 함수는 크게, 반환할 때 Python 객체(주로 리스트)를 반환하는 함수와 JSON의 문법을 따르는 string을 반환하는 함수로 나뉩니다. 일부는 아래와 같은 형식을 따릅니다.
  
 ## Baekjoon 문제
@@ -33,7 +33,7 @@ Baekjoon(문제 정보, 우리 학교 학생이 푼 문제 정보 등)과 solved
  7. Unrated : "U"
  8. 번외 : "N"
 
-# API에 구현되는 함수 목록
+# 4. API에 구현되는 함수 목록
 ## (string) getAllProb_JSON()
 백준에 존재하는 모든 문제 목록을 JSON 형식의 문자열로 반환합니다.
 
@@ -101,18 +101,4 @@ ex. 아래 내용을 담은 문자열
 	},
 	 ... # 그 외 추가된 모든 문제
 ]
-</code></pre>
-
-## (string) getProbInfo((string) id)
-id에 해당하는 문제의 정보를 새로 가져옵니다.
-
-<pre><code>
-ex. 아래 내용을 담은 문자열 (getProbInfo("18801"))
-{
-	"id": "18801",
-	"title": "댐",
-	"rank": "R5",
-	"solver_count": "21",
-	"ac_rate": "43.750"
-}
 </code></pre>
