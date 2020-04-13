@@ -150,3 +150,17 @@ def notice_today_contest(contest):
         slack_url, data=json.dumps(payloads),
         headers={'Content-Type': 'application/json'}
     )
+
+
+def update_ihb():
+    # AllProbs.json에서 모든 문제 불러오기
+    all_probs_json = s3.get_object(Bucket="iknoom-contests", Key="AllProbs.json")
+
+    # SolvedProbIDs.json에서 푼 문제 불러오기
+    # Info.json에서 LastProbID, LastSubID 불러오기
+    # all_probs에 새로운 문제 추가하기
+    # solved_prob_ids에 새로운 문제 추가하기
+    # unsolved_probs dict 만들기
+    # AllProbs.json 만들어서 S3에 올리기
+    # SolvedProbIDs.json 만들어서 S3에 올리기
+    # UnsolvedProbs.json 만들어서 S3에 올리기
