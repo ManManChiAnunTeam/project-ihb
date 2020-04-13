@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>IHB 테이블 테스트</title>
+    <style>
+        button {
+            background: none;
+            border: 0;
+            outline: 0;
+            cursor: pointer;
+        }
+
+        .tab_menu_container {
+            display: flex;
+        }
+
+        .tab_menu_btn {
+            width: 80px;
+            height: 40px;
+            transition: 0.3s all;
+        }
+
+        .tab_menu_btn.on {
+            border-bottom: 2px solid #df0000;
+            font-weight: 700;
+            color: #df0000;
+        }
+
+        .tab_menu_btn:hover {
+            color: #df0000;
+        }
+
+        .tab_box {
+            display: none;
+            padding: 20px;
+        }
+
+        .tab_box.on {
+            display: block;
+        }
+    </style>
+
+    <script type="text/javascript" src="js/jquery-3.5.0.js"></script>
+</head>
+
+<body>
+    <div class="tab_wrap">
+        <div class="tab_menu_container">
+            <button class="bronze_tab tab_menu_btn on" type="button">Bronze</button>
+            <button class="silver_tab tab_menu_btn" type="button">Silver</button>
+            <button class="gold_tab tab_menu_btn" type="button">Gold</button>
+            <button class="platinum_tab tab_menu_btn" type="button">Platinum</button>
+            <button class="diamond_tab tab_menu_btn" type="button">Diamond</button>
+            <button class="ruby_tab tab_menu_btn" type="button">Ruby</button>
+
+            <button class="unrated_tab tab_menu_btn" type="button">Unrated</button>
+            <button class="other_tab tab_menu_btn" type="button">번외</button>
+        </div>
+
+        <div class="tab_box_container">
+            <table class="bronze_box tab_box on" style="border-collapse: collapse;" border="1" id="bronzeTable">
+                <thead>
+                    <tr>
+                        <th>문제 번호</th>
+                        <th>제목</th>
+                        <th>티어</th>
+                        <th>푼 사람 수</th>
+                        <th>정답 비율</th>
+                    </tr>
+                </thead>
+
+                <tbody id="B_body">
+                </tbody>
+            </table>
+
+            <table class="silver_box tab_box" style="border-collapse: collapse;" border="1" id="silverTable">
+                <thead>
+                    <tr>
+                        <th>문제 번호</th>
+                        <th>제목</th>
+                        <th>티어</th>
+                        <th>푼 사람 수</th>
+                        <th>정답 비율</th>
+                    </tr>
+                </thead>
+
+                <tbody id="S_body">
+                </tbody>
+            </table>
+
+            <table class="gold_box tab_box" style="border-collapse: collapse;" border="1" id="goldTable">
+                <thead>
+                    <tr>
+                        <th>문제 번호</th>
+                        <th>제목</th>
+                        <th>티어</th>
+                        <th>푼 사람 수</th>
+                        <th>정답 비율</th>
+                    </tr>
+                </thead>
+
+                <tbody id="G_body">
+                </tbody>
+            </table>
+
+            <table class="platinum_box tab_box" style="border-collapse: collapse;" border="1" id="platinumTable">
+                <thead>
+                    <tr>
+                        <th>문제 번호</th>
+                        <th>제목</th>
+                        <th>티어</th>
+                        <th>푼 사람 수</th>
+                        <th>정답 비율</th>
+                    </tr>
+                </thead>
+
+                <tbody id="P_body">
+                </tbody>
+            </table>
+
+            <table class="diamond_box tab_box" style="border-collapse: collapse;" border="1" id="diamondTable">
+                <thead>
+                    <tr>
+                        <th>문제 번호</th>
+                        <th>제목</th>
+                        <th>티어</th>
+                        <th>푼 사람 수</th>
+                        <th>정답 비율</th>
+                    </tr>
+                </thead>
+
+                <tbody id="D_body">
+                </tbody>
+            </table>
+
+            <table class="ruby_box tab_box" style="border-collapse: collapse;" border="1" id="rubyTable">
+                <thead>
+                    <tr>
+                        <th>문제 번호</th>
+                        <th>제목</th>
+                        <th>티어</th>
+                        <th>푼 사람 수</th>
+                        <th>정답 비율</th>
+                    </tr>
+                </thead>
+
+                <tbody id="R_body">
+                </tbody>
+            </table>
+
+            <table class="unrated_box tab_box" style="border-collapse: collapse;" border="1" id="unratedTable">
+                <thead>
+                    <tr>
+                        <th>문제 번호</th>
+                        <th>제목</th>
+                        <th>티어</th>
+                        <th>푼 사람 수</th>
+                        <th>정답 비율</th>
+                    </tr>
+                </thead>
+
+                <tbody id="U_body">
+                </tbody>
+            </table>
+
+            <table class="other_box tab_box" style="border-collapse: collapse;" border="1" id="otherTable">
+                <thead>
+                    <tr>
+                        <th>문제 번호</th>
+                        <th>제목</th>
+                        <th>티어</th>
+                        <th>푼 사람 수</th>
+                        <th>정답 비율</th>
+                    </tr>
+                </thead>
+
+                <tbody id="N_body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $('.tab_menu_btn').on('click', function () {
+            console.log("tab menu clicked");
+            $('.tab_menu_btn').removeClass('on');
+            $(this).addClass('on');
+        });
+
+        $('.bronze_tab').on('click', function () {
+            console.log("bronze clicked");
+            $('.tab_box').hide();
+            $('.bronze_box').show();
+        });
+
+        $('.silver_tab').on('click', function () {
+            console.log("silver clicked");
+            $('.tab_box').hide();
+            $('.silver_box').show();
+        });
+
+        $('.gold_tab').on('click', function () {
+            console.log("gold clicked");
+            $('.tab_box').hide();
+            $('.gold_box').show();
+        });
+
+        $('.platinum_tab').on('click', function () {
+            console.log("platinum clicked");
+            $('.tab_box').hide();
+            $('.platinum_box').show();
+        });
+
+        $('.diamond_tab').on('click', function () {
+            console.log("diamond clicked");
+            $('.tab_box').hide();
+            $('.diamond_box').show();
+        });
+
+        $('.ruby_tab').on('click', function () {
+            console.log("ruby clicked");
+            $('.tab_box').hide();
+            $('.ruby_box').show();
+        });
+
+        $('.unrated_tab').on('click', function () {
+            console.log("unrated clicked");
+            $('.tab_box').hide();
+            $('.unrated_box').show();
+        });
+
+        $('.other_tab').on('click', function () {
+            console.log("other clicked");
+            $('.tab_box').hide();
+            $('.other_box').show();
+        });
+    </script>
+
+    <script type="text/javascript">
+        var probDict;
+        var tierPrior = { "B": 1, "S": 2, "G": 3, "P": 4, "D": 5, "R": 6, "U": 7, "N": 8 };
+
+        function SortByTierStr(t1, t2) {
+            if (t1.charAt(0) != t2.charAt(0))
+                return tierPrior[t1.charAt(0)] < tierPrior[t2.charAt(0)];
+            else return t1 < t2;
+        }
+
+        async function Initialize() {
+            console.log("init...");
+            probDict = await ReadFrom('./UnsolvedProbs.json');
+            console.log(probDict);
+
+            Object.entries(probDict).forEach(([tier, list]) => {
+                console.log(tier);
+                var tbody = document.getElementById(tier.charAt(0) + "_body");
+
+                list.forEach(function(prob, index, array) {
+                    var newRow = tbody.insertRow(-1);
+
+                    var idCell = newRow.insertCell(-1);
+                    var titleCell = newRow.insertCell(-1);
+                    var tierCell = newRow.insertCell(-1);
+                    var solverCell = newRow.insertCell(-1);
+                    var rateCell = newRow.insertCell(-1);
+
+                    console.log(prob);
+                    idCell.innerHTML = prob["id"];
+                    titleCell.innerHTML = prob["title"];
+                    tierCell.innerHTML = prob["rank"];
+                    solverCell.innerHTML = prob["solver_count"];
+                    rateCell.innerHTML = prob["ac_rate"];
+                });
+            });
+
+            console.log("done");
+        }
+
+        function ReadFrom(path) {
+            return new Promise((resolve, reject) => $.get(path, resolve).fail(reject));
+        }
+
+        Initialize();
+    </script>
+</body>
+
+</html>
