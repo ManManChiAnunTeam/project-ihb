@@ -6,9 +6,9 @@ AWS Lambda의 cloudwatch를 활용한 WebHook
 
 다음 두 가지 경우에 대해서 메세지가 담긴 json을 Slack의 Incoming WebHooks에 POST해준다.
 
-1. 일정에 새롭게 추가된 Contest가 있을 경우(Codeforces, AtCoder) - 
+1. 일정에 새롭게 추가된 Contest가 있을 경우(Codeforces, AtCoder)
 
-2. 시작까지 12시간 이내로 남은 Contest가 있을 경우(Codeforces, AtCoder) - 
+2. 시작까지 12시간 이내로 남은 Contest가 있을 경우(Codeforces, AtCoder)
 
 
 ## 설명
